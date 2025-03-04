@@ -1,5 +1,5 @@
 # Kubernetes Analogy: Food Truck Management 🚚
-![App Screenshot](Screenshot 2025-03-04 093219.png)
+![App Screenshot](https://github.com/YashSri17/mthree-training-notes/blob/main/DAY%2017/Screenshot%202025-03-04%20093219.png)
 
 ## Imagine You Own a Chain of Food Trucks 🍔🌮
 You don’t just run one food truck; you have multiple food trucks operating in different locations, serving hungry customers efficiently. But managing them manually is tough. You need a system to ensure smooth operations.
