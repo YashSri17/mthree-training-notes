@@ -1,7 +1,7 @@
 # SRE Learnings [Week Wise] 
 
 ## Table of Contents  
-- [Week 1: Git, GitHub, Git Branching](#week-1-git-github-git-branching)  
+- [Week 1: Git, GitHub, Git Branching]([#week-1-git-github-git-branching](https://github.com/YashSri17/mthree-training-notes/tree/main/Week%201))  
 - [Week 2: RDBMS and SQL](#week-2-rdbms-and-sql)  
 - [Week 3: Linux Basics / IT Service Management](#week-3-linux-basics--it-service-management)  
 - [Week 4: Python](#week-4-python)  
