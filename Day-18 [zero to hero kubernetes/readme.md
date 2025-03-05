@@ -244,6 +244,6 @@ Look for errors and fix accordingly.
 ✔ Tested the application via NodePort & Port Forwarding
 
 📌 **Now your application is successfully deployed and accessible!** 🚀
-![Kubernetes localhost](kubernetes localhost.png)
+![Kubernetes localhost]([kubernetes localhost](https://github.com/YashSri17/mthree-training-notes/blob/main/Day-18%20%5Bzero%20to%20hero%20kubernetes/kubernetes%20localhost.png))
 
 
