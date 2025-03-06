@@ -264,3 +264,134 @@ if __name__ == '__main__':
 
 - Runs the app on port `5000`, listening on all interfaces (`0.0.0.0`).
 - Kubernetes will map this port to a service.
+
+# Tracking Request Count & Application Metrics
+
+## 1️⃣ Initializing Metrics
+
+```python
+request_count = 0
+start_time = time.time()
+```
+- `request_count = 0` → Tracks the total number of requests received by the Flask app.
+- `start_time = time.time()` → Records the time when the application starts running (in seconds since epoch).
+
+```python
+metrics = {
+    'requests': 0,
+    'errors': 0,
+    'data_reads': 0,
+    'data_writes': 0
+}
+```
+### Key Performance Indicators (KPIs):
+- `'requests'` → Total number of HTTP requests received.
+- `'errors'` → Number of errors encountered.
+- `'data_reads'` → Count of times data is read from a file or database.
+- `'data_writes'` → Count of times data is written to a file or database.
+
+## 2️⃣ Defining a Background Worker Function
+
+```python
+def background_worker():
+    """
+    Simulate background work to demonstrate resource usage.
+    In a real app, this might be processing tasks, etc.
+    """
+    logger.info("Background worker started")
+    counter = 0
+    while True:
+        # Simulate CPU workload (e.g., calculating prime numbers)
+        counter += 1
+        if counter % 1000 == 0:
+            logger.debug(f"Background worker tick: {counter}")
+        time.sleep(0.1)  # Avoid consuming too much CPU
+```
+### Functionality:
+✅ Simulates workload  
+✅ Tracks resource usage  
+✅ Logs progress periodically  
+✅ Prevents CPU overload using `time.sleep(0.1)`
+
+## 3️⃣ Starting the Background Worker Thread
+
+```python
+worker_thread = threading.Thread(target=background_worker, daemon=True)
+worker_thread.start()
+```
+- Runs `background_worker()` in a separate thread.
+- `daemon=True` → Ensures the worker stops automatically when the main process exits.
+
+## 4️⃣ Defining the Main Route (`/`)
+
+```python
+@app.route('/')
+def index():
+    """Main page showing application status and mounted volume information"""
+    global request_count, metrics
+    request_count += 1
+    metrics['requests'] += 1
+    logger.info(f"Request to index page from {request.remote_addr}")
+
+    system_info = {
+        'hostname': socket.gethostname(),
+        'platform': platform.platform(),
+        'python_version': platform.python_version(),
+        'cpu_count': psutil.cpu_count(),
+        'memory': f"{psutil.virtual_memory().total / (1024 * 1024):.1f} MB",
+        'uptime': f"{time.time() - start_time:.1f} seconds"
+    }
+
+    resource_usage = {
+        'cpu_percent': psutil.cpu_percent(),
+        'memory_percent': psutil.virtual_memory().percent,
+        'disk_usage': f"{psutil.disk_usage('/').percent}%"
+    }
+
+    volumes = {}
+
+    try:
+        data_files = os.listdir(DATA_PATH)
+        volumes['data'] = {
+            'path': DATA_PATH,
+            'files': data_files,
+            'status': 'mounted' if data_files else 'empty'
+        }
+        metrics['data_reads'] += 1
+    except Exception as e:
+        volumes['data'] = {'path': DATA_PATH, 'error': str(e), 'status': 'error'}
+        metrics['errors'] += 1
+
+    try:
+        config_files = os.listdir(CONFIG_PATH)
+        volumes['config'] = {
+            'path': CONFIG_PATH,
+            'files': config_files,
+            'status': 'mounted' if config_files else 'empty'
+        }
+    except Exception as e:
+        volumes['config'] = {'path': CONFIG_PATH, 'error': str(e), 'status': 'error'}
+        metrics['errors'] += 1
+
+    try:
+        logs_files = os.listdir(LOG_PATH)
+        volumes['logs'] = {
+            'path': LOG_PATH,
+            'files': logs_files,
+            'status': 'mounted' if logs_files else 'empty'
+        }
+    except Exception as e:
+        volumes['logs'] = {'path': LOG_PATH, 'error': str(e), 'status': 'error'}
+        metrics['errors'] += 1
+
+    return jsonify({
+        'message': f'Welcome to {APP_NAME}!',
+        'version': APP_VERSION,
+        'instance_id': INSTANCE_ID,
+        'hostname': system_info['hostname'],
+        'ip_address': IP_ADDRESS,
+        'system_info': system_info,
+        'resource_usage': resource_usage,
+        'volumes': volumes
+    })
+```
