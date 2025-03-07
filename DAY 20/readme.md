@@ -3,7 +3,7 @@
 ## 🏛️ 1. Inheritance
 Inheritance allows a class (child class) to inherit the properties and methods of another class (parent class).
 
-### 🔹 Types of Inheritance:
+### 🔹 Types of Inheritance:-
 | Type | Description |
 |------|------------|
 | Single Inheritance | One child class inherits from one parent class |
