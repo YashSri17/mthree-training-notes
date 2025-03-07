@@ -1,9 +1,9 @@
-# Python Concepts Notes
+# 🚀 Python Concepts Notes
 
-## 1. Inheritance
+## 🏛️ 1. Inheritance
 Inheritance allows a class (child class) to inherit the properties and methods of another class (parent class).
 
-### Types of Inheritance:
+### 🔹 Types of Inheritance:
 | Type | Description |
 |------|------------|
 | Single Inheritance | One child class inherits from one parent class |
@@ -12,31 +12,33 @@ Inheritance allows a class (child class) to inherit the properties and methods o
 | Hierarchical Inheritance | Multiple child classes inherit from a single parent class |
 | Hybrid Inheritance | A combination of different types of inheritance |
 
-
+📖 [For detailed notes](https://www.geeksforgeeks.org/inheritance-in-python/)
 
 ---
 
-## 2. Deep Copy vs. Shallow Copy
-### Shallow Copy
+## 🔄 2. Deep Copy vs. Shallow Copy
+### 🔹 Shallow Copy
 - Copies references to objects, not the objects themselves.
 - Changes in copied object affect the original.
 
-### Deep Copy
+### 🔹 Deep Copy
 - Creates a completely independent copy.
 - Changes in copied object do not affect the original.
 
-### Comparison:
+### 📊 Comparison:
 | Copy Type | Copies References | Copies Actual Objects | Independent Changes |
 |-----------|-------------------|-----------------------|---------------------|
 | Shallow Copy | Yes | No | No |
 | Deep Copy | No | Yes | Yes |
 
+📖 [For my detailed notes](https://www.geeksforgeeks.org/copy-python-deep-copy-shallow-copy/)
+
 ---
 
-## 3. File Handling
+## 📂 3. File Handling
 File handling in Python allows reading, writing, and managing files.
 
-### Common File Modes:
+### 🔹 Common File Modes:
 | Mode | Description |
 |------|------------|
 | `r`  | Read mode (default) |
@@ -45,12 +47,14 @@ File handling in Python allows reading, writing, and managing files.
 | `r+` | Read and write mode |
 | `w+` | Write and read mode (overwrites file) |
 
+📖 [For my detailed notes](https://www.geeksforgeeks.org/file-handling-python/) 
+
 ---
 
-## 4. Try and Except
+## ⚠️ 4. Try and Except
 Exception handling prevents runtime errors from crashing the program.
 
-### Exception Handling Structure:
+### 🔹 Exception Handling Structure:
 ```
 try:
     # Code that may cause an exception
@@ -60,7 +64,7 @@ finally:
     # Code that runs regardless of an exception
 ```
 
-### Common Exceptions in Python:
+### 🚨 Common Exceptions in Python:
 | Exception | Description |
 |-----------|------------|
 | `ZeroDivisionError` | Raised when division by zero occurs |
@@ -68,24 +72,28 @@ finally:
 | `ValueError` | Raised when an invalid value is used |
 | `FileNotFoundError` | Raised when a file does not exist |
 
+📖 [For my detailed notes](https://www.geeksforgeeks.org/python-try-except/) 
+
 ---
 
-## 5. Method Overloading and Overriding
+## 🔄 5. Method Overloading and Overriding
 
-### Method Overloading
+### 🔹 Method Overloading
 - Python does not support true method overloading.
 - Achieved using default arguments.
 
-### Method Overriding
+### 🔹 Method Overriding
 - A subclass provides a specific implementation of a method already defined in its superclass.
 
-### Comparison:
+### 📊 Comparison:
 | Feature | Method Overloading | Method Overriding |
 |---------|-------------------|-------------------|
 | Definition | Multiple methods with the same name but different parameters | Redefining a parent class method in a subclass |
 | Support in Python | Not natively supported (achieved using default arguments) | Fully supported |
 | Usage | Used to perform different operations based on parameter count | Used to change the behavior of an inherited method |
 
+📖 [For my detailed notes](https://www.geeksforgeeks.org/method-overloading-and-overriding-in-python/) 
+
 ---
 
-This document provides a concise overview of these important Python concepts with structured tables and explanations for better understanding.
+This document provides a concise overview of these important Python concepts with structured tables, links, and explanations for better understanding. 🎯
