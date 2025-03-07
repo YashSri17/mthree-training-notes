@@ -12,7 +12,7 @@ Inheritance allows a class (child class) to inherit the properties and methods o
 | Hierarchical Inheritance | Multiple child classes inherit from a single parent class |
 | Hybrid Inheritance | A combination of different types of inheritance |
 
-📖 [For detailed notes](https://www.geeksforgeeks.org/inheritance-in-python/)
+📖 [For detailed notes](https://github.com/YashSri17/mthree-training-notes/blob/main/DAY%2020/Deep_%26_Shallow_Copy.md)
 
 ---
 
