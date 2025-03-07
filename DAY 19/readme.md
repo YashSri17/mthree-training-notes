@@ -395,3 +395,219 @@ def index():
         'volumes': volumes
     })
 ```
+# Object-Oriented Programming (OOP) in Python – Theory & Concepts
+
+## Introduction to OOP
+Object-Oriented Programming (OOP) is a programming paradigm that organizes software design around objects rather than functions and logic. Objects represent real-world entities with attributes (data) and behaviors (methods/functions).
+
+## Advantages of OOP
+✅ **Code Reusability** – Inheritance allows code to be reused, reducing redundancy.
+✅ **Modularity** – Code is structured into objects, making it more organized and manageable.
+✅ **Scalability** – Easy to extend and modify as new features can be added.
+✅ **Security** – Encapsulation hides sensitive data and prevents direct modification.
+
+## Key Principles of OOP (4 Pillars)
+
+### 1. Encapsulation
+Encapsulation is the technique of restricting direct access to data (variables) and allowing modifications only through methods.
+- Protects the integrity of the object’s data.
+- Implemented using private (`__variable`) and protected (`_variable`) attributes.
+
+```python
+class BankAccount:
+    def __init__(self, balance):
+        self.__balance = balance  # Private variable
+
+    def deposit(self, amount):
+        self.__balance += amount
+
+    def get_balance(self):
+        return self.__balance
+
+acc = BankAccount(5000)
+print(acc.get_balance())  # Output: 5000
+acc.deposit(2000)
+print(acc.get_balance())  # Output: 7000
+```
+🔹 `__balance` cannot be accessed directly outside the class.
+
+### 2. Abstraction
+Abstraction hides complex implementation details and only exposes essential features.
+- Implemented using abstract classes and methods in Python via the `ABC` module.
+
+```python
+from abc import ABC, abstractmethod
+
+class Vehicle(ABC):
+    @abstractmethod
+    def start_engine(self):
+        pass  # Abstract method, no implementation
+
+class Car(Vehicle):
+    def start_engine(self):
+        print("Car engine started!")
+
+c = Car()
+c.start_engine()  # Output: Car engine started!
+```
+🔹 The `Vehicle` class is abstract and cannot be instantiated directly.
+
+### 3. Inheritance
+Inheritance allows a child class to inherit attributes and methods from a parent class.
+- Promotes code reuse and hierarchical relationships between classes.
+
+#### Types of Inheritance:
+1️⃣ **Single Inheritance** – One parent, one child.
+2️⃣ **Multilevel Inheritance** – Inheriting from an inherited class.
+3️⃣ **Multiple Inheritance** – A class inherits from multiple parent classes.
+
+#### Example (Single Inheritance):
+```python
+class Animal:
+    def speak(self):
+        print("Animal makes a sound")
+
+class Dog(Animal):  # Inheriting from Animal
+    def speak(self):
+        print("Dog barks")
+
+d = Dog()
+d.speak()  # Output: Dog barks
+```
+🔹 `Dog` inherits from `Animal` but overrides the `speak()` method.
+
+### 4. Polymorphism
+Polymorphism allows methods to have the same name but different behaviors depending on the object.
+- Achieved using **method overriding** and **method overloading (via default arguments).**
+
+#### Example (Method Overriding):
+```python
+class Bird:
+    def fly(self):
+        print("Most birds can fly")
+
+class Penguin(Bird):
+    def fly(self):
+        print("Penguins can't fly")
+
+b = Bird()
+p = Penguin()
+b.fly()  # Output: Most birds can fly
+p.fly()  # Output: Penguins can't fly
+```
+🔹 The `Penguin` class overrides the `fly()` method.
+
+## Other Important OOP Concepts
+
+### 1. Classes and Objects
+- A **class** is a blueprint/template for creating objects.
+- An **object** is an instance of a class.
+
+```python
+class Car:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+
+    def display(self):
+        print(f"Car: {self.brand} {self.model}")
+
+car1 = Car("Tesla", "Model S")  # Object creation
+car1.display()  # Output: Car: Tesla Model S
+```
+🔹 `car1` is an instance of the `Car` class.
+
+### 2. Constructor (`__init__` Method)
+- The constructor method initializes object attributes when an object is created.
+- It is called automatically when an object is instantiated.
+
+```python
+class Student:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+s1 = Student("Alice", 20)
+print(s1.name)  # Output: Alice
+```
+🔹 The `__init__` method runs automatically to assign values.
+
+### 3. Method Overloading
+- Python does not support true method overloading but allows default arguments to achieve similar functionality.
+
+```python
+class Math:
+    def add(self, a, b=0, c=0):
+        return a + b + c
+
+m = Math()
+print(m.add(2))      # Output: 2
+print(m.add(2, 3))   # Output: 5
+print(m.add(2, 3, 4)) # Output: 9
+```
+🔹 The function adjusts behavior based on the number of arguments.
+
+### 4. Operator Overloading
+- Python allows overloading operators (e.g., `+`, `-`, `*`) to work with user-defined objects.
+
+```python
+class Point:
+    def __init__(self, x):
+        self.x = x
+
+    def __add__(self, other):
+        return Point(self.x + other.x)
+
+p1 = Point(5)
+p2 = Point(10)
+p3 = p1 + p2  # Calls __add__()
+print(p3.x)   # Output: 15
+```
+🔹 The `+` operator is customized for `Point` objects.
+
+### 5. Multiple Inheritance
+- A class inherits from multiple parent classes.
+
+```python
+class A:
+    def show(self):
+        print("Class A")
+
+class B:
+    def show(self):
+        print("Class B")
+
+class C(A, B):  # Multiple Inheritance
+    pass
+
+obj = C()
+obj.show()  # Output: Class A (Method Resolution Order - MRO)
+```
+🔹 Python follows the **Method Resolution Order (MRO)** to decide which method to call.
+
+### 6. Class vs Static Methods
+- **Instance Method** – Works with object attributes (`self`).
+- **Class Method (@classmethod)** – Works with class variables (`cls`).
+- **Static Method (@staticmethod)** – Independent of class and instance.
+
+```python
+class Example:
+    class_var = 10
+
+    @classmethod
+    def class_method(cls):
+        print(f"Class method, class_var: {cls.class_var}")
+
+    @staticmethod
+    def static_method():
+        print("Static method called")
+
+Example.class_method()  # Output: Class method, class_var: 10
+Example.static_method() # Output: Static method called
+```
+
+## Conclusion
+- OOP makes Python code more **modular, reusable, and maintainable**.
+- It is widely used in **software development, game design, data analysis, and system programming**.
+- Mastering **classes, objects, inheritance, polymorphism, and encapsulation** is key to writing efficient object-oriented programs.
+
