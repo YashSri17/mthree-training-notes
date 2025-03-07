@@ -12,7 +12,7 @@ Inheritance allows a class (child class) to inherit the properties and methods o
 | Hierarchical Inheritance | Multiple child classes inherit from a single parent class |
 | Hybrid Inheritance | A combination of different types of inheritance |
 
-📖 [For detailed notes](https://github.com/YashSri17/mthree-training-notes/blob/main/DAY%2020/Deep_%26_Shallow_Copy.md)
+📖 [For detailed notes](https://github.com/YashSri17/mthree-training-notes/blob/main/DAY%2020/Inheritance.md)
 
 ---
 
@@ -31,7 +31,7 @@ Inheritance allows a class (child class) to inherit the properties and methods o
 | Shallow Copy | Yes | No | No |
 | Deep Copy | No | Yes | Yes |
 
-📖 [For my detailed notes](https://www.geeksforgeeks.org/copy-python-deep-copy-shallow-copy/)
+📖 [For my detailed notes](https://github.com/YashSri17/mthree-training-notes/blob/main/DAY%2020/Deep_%26_Shallow_Copy.md)
 
 ---
 
@@ -47,7 +47,7 @@ File handling in Python allows reading, writing, and managing files.
 | `r+` | Read and write mode |
 | `w+` | Write and read mode (overwrites file) |
 
-📖 [For my detailed notes](https://www.geeksforgeeks.org/file-handling-python/) 
+📖 [For my detailed notes](https://github.com/YashSri17/mthree-training-notes/blob/main/DAY%2020/File_Handling_in_Python.md) 
 
 ---
 
@@ -72,7 +72,7 @@ finally:
 | `ValueError` | Raised when an invalid value is used |
 | `FileNotFoundError` | Raised when a file does not exist |
 
-📖 [For my detailed notes](https://www.geeksforgeeks.org/python-try-except/) 
+📖 [For my detailed notes](https://github.com/YashSri17/mthree-training-notes/blob/main/DAY%2020/Try_Except.md)
 
 ---
 
@@ -92,7 +92,7 @@ finally:
 | Support in Python | Not natively supported (achieved using default arguments) | Fully supported |
 | Usage | Used to perform different operations based on parameter count | Used to change the behavior of an inherited method |
 
-📖 [For my detailed notes](https://www.geeksforgeeks.org/method-overloading-and-overriding-in-python/) 
+📖 [For my detailed notes](https://github.com/YashSri17/mthree-training-notes/blob/main/DAY%2020/Method%20Overloading_and_Overriding.md) 
 
 ---
 
