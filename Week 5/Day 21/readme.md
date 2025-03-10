@@ -186,7 +186,7 @@ with engine.connect() as con:
     result = con.execute(select_stmt)
     for row in result:
         print(row)
-
+```
 
 # 💻 Connecting SQLite with Ubuntu Terminal – Notes 📒
 
