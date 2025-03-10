@@ -76,8 +76,6 @@ flat_arr = arr1.flatten()
 print("Mode:", st.mode(flat_arr))
 ```
 
----
-
 ## 🧮 Pandas – Data Analysis Library
 
 ### ➤ What is Pandas?
@@ -112,7 +110,23 @@ df_csv = pd.read_csv('data.csv')
 print(df_csv)
 ```
 
----
+### ⚠️ Note on DataFrame Append:
+- `df.append()` is **deprecated** since **Pandas v2.0** and will be removed in future versions.
+- **Recommended Alternatives:**
+  - Use `pd.concat()` instead.
+```python
+# Deprecated
+# df = df.append(new_row, ignore_index=True)
+
+# Recommended
+import pandas as pd
+
+df1 = pd.DataFrame({"A": [1, 2], "B": [3, 4]})
+df2 = pd.DataFrame({"A": [5], "B": [6]})
+
+result = pd.concat([df1, df2], ignore_index=True)
+print(result)
+```
 
 ## 💽 SQLAlchemy – Python SQL Toolkit & ORM
 
