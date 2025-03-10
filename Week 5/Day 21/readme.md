@@ -186,3 +186,106 @@ with engine.connect() as con:
     result = con.execute(select_stmt)
     for row in result:
         print(row)
+
+
+# 💻 Connecting SQLite with Ubuntu Terminal – Notes 📒
+
+## 📌 What is SQLite?
+- **SQLite** is a lightweight, disk-based database.
+- No separate server process required — everything is stored in a single `.db` file.
+- Ideal for small applications, local development, and prototyping.
+
+---
+
+## ✅ Steps to Use SQLite in Ubuntu Terminal
+
+### 📥 Step 1: Install SQLite (If not already installed)
+```bash
+sudo apt update
+sudo apt install sqlite3
+```
+
+### 🔍 Check installation version:
+```bash
+sqlite3 --version
+```
+
+---
+
+### 📂 Step 2: Create a New SQLite Database
+```bash
+sqlite3 my_database.db
+```
+This command will create a new database file `my_database.db` and open the SQLite prompt:
+```
+SQLite version 3.x.x  
+Enter ".help" for usage hints.  
+sqlite>
+```
+
+---
+
+### 📜 Step 3: Create a Table
+Inside the SQLite prompt:
+```sql
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  age INTEGER,
+  city TEXT
+);
+```
+
+🔍 **View table schema:**
+```sql
+.schema users
+```
+
+---
+
+### ✍️ Step 4: Insert Data
+```sql
+INSERT INTO users (name, age, city) VALUES ('Yashaswi', 24, 'Lucknow');
+```
+
+---
+
+### 📊 Step 5: Fetch Data
+```sql
+SELECT * FROM users;
+```
+
+---
+
+### ❌ Step 6: Exit SQLite Prompt
+```sql
+.quit
+```
+
+---
+
+## 💡 Some Useful SQLite Commands
+
+| Command               | Description                                   |
+|----------------------|-----------------------------------------------|
+| `.tables`            | Show all tables in the database               |
+| `.schema tablename`  | Show structure/schema of a specific table     |
+| `.headers on`        | Show column headers in SELECT result          |
+| `.mode column`       | Display result in a neat column format        |
+| `.exit` / `.quit`    | Exit the SQLite prompt                        |
+
+---
+
+## 📁 Bonus: Run SQL Commands from a File
+If you have a `.sql` file with queries:
+```bash
+sqlite3 my_database.db < my_queries.sql
+```
+
+---
+
+## 📌 Bonus Tip: Run Query Without Entering SQLite Prompt
+```bash
+sqlite3 my_database.db "SELECT * FROM users;"
+```
+
