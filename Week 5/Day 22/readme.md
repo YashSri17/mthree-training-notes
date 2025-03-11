@@ -4,8 +4,7 @@
 ## 💻 1. Open Ubuntu
 That’s just you starting your terminal or opening the Ubuntu OS.
 
-## ⚙️ 2. sudo apt install
-This is an incomplete command. You’re telling Ubuntu to install something via apt, but you didn’t specify what.
+## ⚙️ 2. sudo apt install curl
 **Example:**
 ```bash
 sudo apt install curl
@@ -65,7 +64,7 @@ Static files served directly to the browser.
 - `index.html` – The main HTML file where React renders.
 - `favicon.ico`, `manifest.json`, `robots.txt`
 
-### 💖 src/
+### src/
 Your main React codebase.
 - `App.js` – Main component.
 - `App.css` – Styling for App.js.
