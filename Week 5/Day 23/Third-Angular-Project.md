@@ -42,7 +42,7 @@ src/
 
 ## 🛠 Sample Code Breakdown
 
-### 1️⃣ app-routing.module.ts
+### 1️⃣ app.routes.ts
 ```ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
