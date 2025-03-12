@@ -44,3 +44,7 @@ save it and then run
 ng build OR ng serve
 ```
 Angular will provide you with a local host and just open it in your browser
+
+# For angularfile structre - https://github.com/YashSri17/mthree-training-notes/blob/main/Week%205/Day%2023/Angular_Project_Structure.md
+# For The Second Project we practised - https://github.com/YashSri17/mthree-training-notes/blob/main/Week%205/Day%2023/Second-Angular-Project.md
+# For the third project we practised - https://github.com/YashSri17/mthree-training-notes/blob/main/Week%205/Day%2023/Third-Angular-Project.md
