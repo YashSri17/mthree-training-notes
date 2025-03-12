@@ -39,8 +39,8 @@ code .
 ```bash
 <h1> Hello World <h1>
 ```
-# save it and then run 
+save it and then run 
 ```bash
 ng build OR ng serve
 ```
-# Angular will provide you with a local host and just open it in your browser
+Angular will provide you with a local host and just open it in your browser
