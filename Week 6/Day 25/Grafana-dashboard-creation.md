@@ -71,6 +71,8 @@ Grafana is an **open-source visualization and analytics platform** that allows y
 - Use **templating** for filtering
 - Tag dashboards for better searchability
 
+---
+
   # How we set up Grafana through ubuntu using just a single script
   # 🚀 Kubernetes Monitoring Stack with Prometheus, Loki, and Grafana
 
@@ -83,6 +85,181 @@ This project sets up a lightweight Kubernetes monitoring stack using:
 - **Minikube** – Local Kubernetes cluster
 
 ---
+
+# 🔍 Line-by-Line Explanation of `simple-grafana-monitoring.sh`
+
+## 🐚 Bash Script Basics
+
+```bash
+#!/bin/bash
+```
+> Tells the system to run this script with the Bash shell.
+
+```bash
+set -e
+```
+> Exit the script immediately if any command fails (error-safe execution).
+
+---
+
+## 💻 Minikube Reset Section
+
+```bash
+read -p "Do you want to reset Minikube? (y/n): " reset_choice
+```
+> Asks user whether they want to start a fresh Minikube cluster or use the existing one.
+
+```bash
+if [[ "$reset_choice" == "y" ]]; then ...
+```
+> If "yes", deletes existing Minikube and starts a new cluster using Docker driver.
+
+---
+
+## ✅ Cluster Check
+
+```bash
+minikube status
+kubectl get nodes
+```
+> Verifies that Minikube is running and Kubernetes node is active.
+
+---
+
+## 🔧 Deploying Sample Application
+
+A `sample-logger` deployment is created in a namespace `sample-app`.  
+The app continuously generates random `INFO`, `DEBUG`, and `ERROR` logs using BusyBox.
+
+```yaml
+args:
+  - >
+    while true; do
+      echo "[INFO] Log entry at \$(date)";
+      sleep 3;
+      echo "[DEBUG] Processing data...";
+      sleep 2;
+      if [ \$((RANDOM % 10)) -eq 0 ]; then
+        echo "[ERROR] Sample error occurred!";
+      fi;
+      sleep 1;
+    done
+```
+
+🔸 This simulates real application logs for monitoring practice.
+
+---
+
+## 📈 Prometheus Installation
+
+- Creates a fresh `monitoring` namespace.
+- Adds Helm repos for Prometheus & Grafana.
+- Installs Prometheus with a minimal config file (`prometheus-values.yaml`) — disables Alertmanager and Pushgateway for simplicity.
+
+```yaml
+server:
+  persistentVolume:
+    enabled: false
+```
+
+🔸 No persistent volume — ephemeral setup for testing only.
+
+---
+
+## 📡 Loki + Promtail Stack Installation
+
+```bash
+helm install loki grafana/loki-stack ...
+```
+
+- Loki = log storage and query engine  
+- Promtail = log shipper that collects logs from Kubernetes pods  
+- Grafana is disabled here because we install it separately.
+
+---
+
+## 📊 Grafana Installation
+
+```yaml
+datasources:
+  datasources.yaml:
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-server.monitoring.svc.cluster.local
+    - name: Loki
+      type: loki
+      url: http://loki.monitoring.svc.cluster.local:3100
+```
+
+- Grafana is installed with pre-configured datasources (Prometheus + Loki).
+- It also loads predefined dashboards automatically via URLs or Grafana IDs.
+
+---
+
+## ⏳ Wait & Port Forward Grafana
+
+```bash
+kubectl port-forward svc/grafana -n monitoring 3000:80 &
+```
+
+> Makes Grafana UI available locally on `http://localhost:3000`.
+
+---
+
+## 📋 Creating Custom Dashboard
+
+Creates a custom dashboard (`dashboard.json`) with 2 panels:
+- **All Logs Panel** from `sample-logger`
+- **Filtered Error Logs Panel** from that app using LogQL
+
+```json
+"expr": "{namespace=\"sample-app\"} |= \"ERROR\""
+```
+
+---
+
+## 📤 Uploading Dashboard to Grafana
+
+```bash
+curl -X POST -d @dashboard.json http://admin:admin@localhost:3000/api/dashboards/db
+```
+> Pushes the custom dashboard to Grafana using API.
+
+---
+
+## 📢 Final Setup Info
+
+Prints access credentials:
+
+```
+Grafana: http://localhost:3000  
+Username: admin  
+Password: admin
+```
+
+---
+
+## ⏳ Keeps Script Alive
+
+```bash
+wait $PORT_FORWARD_PID
+```
+> Keeps the port-forward alive until you manually stop it (Ctrl+C).
+
+---
+
+## 🔥 Summary of What This Script Does
+
+| Task                  | Tool             |
+|-----------------------|------------------|
+| Kubernetes Setup      | Minikube         |
+| Sample App Logs       | BusyBox          |
+| Metrics Monitoring    | Prometheus       |
+| Log Aggregation       | Loki + Promtail  |
+| Visualization         | Grafana          |
+| Dashboard Creation    | JSON + API upload |
+
 
 ## 📐 Architecture Diagram
 
