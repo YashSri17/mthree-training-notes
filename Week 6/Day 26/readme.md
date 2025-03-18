@@ -31,6 +31,8 @@
    (e.g., http://localhost:9090)
    ```
 5. Click **Save & Test**
+   ![image](https://github.com/user-attachments/assets/7b75414b-83e2-41ca-b771-5e171fdacd22)
+
 
 ✅ Prometheus is now connected to Grafana.
 
