@@ -52,6 +52,10 @@
 6. Set the **data source to Prometheus**
 
 ✅ Your required dashboard is now available for use.
+![image](https://github.com/YashSri17/mthree-training-notes/blob/main/Week%206/Day%2026/1g.jpeg)
+![image](https://github.com/YashSri17/mthree-training-notes/blob/main/Week%206/Day%2026/2g.jpeg)
+![image](https://github.com/YashSri17/mthree-training-notes/blob/main/Week%206/Day%2026/3g.jpeg)
+![image](https://github.com/YashSri17/mthree-training-notes/blob/main/Week%206/Day%2026/4g.jpeg)
 
 ---
 
@@ -64,7 +68,7 @@
 ### 🔹 Change Variables
 - Dashboards often include template **variables** (e.g., `$instance`, `$job`)
 - Modify these variables to dynamically change the view and filter data across panels.
-
+![image](https://github.com/YashSri17/mthree-training-notes/blob/main/Week%206/Day%2026/6g.jpeg)
 ---
 
 ## 5️⃣ Connect Loki for Logs
