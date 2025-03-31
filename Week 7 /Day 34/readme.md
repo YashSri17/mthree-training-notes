@@ -5,64 +5,98 @@ Today we started with the deployment.yaml files to deploy our project on kuberne
 ## Overview
 The **Uber Self-Healing App** is designed to ensure high availability, fault tolerance, and automated recovery by integrating monitoring, logging, and Kubernetes-based self-healing mechanisms. This document outlines the key components and workflow of the system.
 
-# Kubernetes Deployment for Uber Project
 
-This guide explains how to deploy the Uber Backend and Frontend on Kubernetes, including connecting to a database, using Docker images, creating secrets, and troubleshooting common issues.
+# Uber Project - Kubernetes Deployment
+
+This guide walks you through the steps for deploying a Dockerized Uber project with Kubernetes, including setting up the frontend and backend services, securely managing database credentials using Kubernetes Secrets, and troubleshooting common issues.
+
+---
 
 ## Prerequisites
-- Minikube installed
-- Docker
-- kubectl configured
-- Docker images for frontend and backend built and pushed to Docker registry
-- Kubernetes cluster setup (Minikube or otherwise)
 
-## Steps for Kubernetes Deployment
+- **Kubernetes Cluster** (Minikube or any other Kubernetes setup)
+- **Docker** installed on your local machine
+- **kubectl** installed for interacting with Kubernetes
+- Docker Hub account (or other Docker image registry)
 
-### 1. Create Docker Images for Frontend and Backend
-- Ensure you have Docker images for both frontend and backend.
-- Build images for both using the following commands:
-  ```bash
-  docker build -t frontend:latest ./frontend
-  docker build -t backend:latest ./backend
-Push images to your registry if using a Docker Hub or a private registry:
+---
 
-bash
-Copy
-Edit
-docker push your-dockerhub-username/frontend:latest
-docker push your-dockerhub-username/backend:latest
-2. Create Secrets for Database Connection
-Create a secret.yaml file to store sensitive information, like your database connection string:
+## Steps
 
-yaml
-Copy
-Edit
+### 1. Build Docker Images
+
+#### Backend
+To build the backend Docker image:
+
+```bash
+docker build -t your-dockerhub-username/uber-backend:latest ./backend
+```
+
+#### Frontend
+To build the frontend Docker image:
+
+```bash
+docker build -t your-dockerhub-username/uber-frontend:latest ./frontend
+```
+
+### 2. Push Docker Images to Registry
+
+Push the backend and frontend images to Docker Hub (or your private registry):
+
+```bash
+docker push your-dockerhub-username/uber-backend:latest
+docker push your-dockerhub-username/uber-frontend:latest
+```
+
+#### If Using Minikube
+If you are using Minikube, you can load the images directly into the Minikube environment:
+
+```bash
+minikube image load your-dockerhub-username/uber-backend:latest
+minikube image load your-dockerhub-username/uber-frontend:latest
+```
+
+---
+
+### 3. Create Kubernetes Secrets
+
+Create a `secret.yaml` file to store sensitive information such as the database connection string.
+
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: db-secret
+  name: uber-db-secret
   namespace: uber
 type: Opaque
 data:
-  DB_CONNECT: <base64-encoded-connection-string>
-You can encode your connection string using the following:
+  DB_CONNECT: bW9uZ29kYjovL3ViZXItZGF0YWJhc2Utc2VydmljZToyNzAxNy91YmVyZGI=
+```
 
-bash
-Copy
-Edit
-echo -n "your-connection-string" | base64
-The encoded string is used in the secret.yaml file.
+Explanation:
+- `DB_CONNECT` is your encoded database URL.
+- Use `base64` to encode sensitive data.
 
-3. Create Deployment YAML Files
-Backend Deployment (backend/deployment.yaml)
-yaml
-Copy
-Edit
+To create the secret in Kubernetes:
+
+```bash
+kubectl apply -f secret.yaml
+```
+
+---
+
+### 4. Kubernetes Deployment for Backend
+
+Create a `deployment.yaml` file for the backend service.
+
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
   namespace: uber
+  labels:
+    app: backend
 spec:
   replicas: 1
   selector:
@@ -75,46 +109,20 @@ spec:
     spec:
       containers:
         - name: backend
-          image: your-dockerhub-username/backend:latest
+          image: your-dockerhub-username/uber-backend:latest
           ports:
             - containerPort: 5000
           env:
+            - name: ENVIRONMENT
+              value: "production"
+            - name: LOG_LEVEL
+              value: "INFO"
             - name: DB_CONNECT
               valueFrom:
                 secretKeyRef:
-                  name: db-secret
+                  name: uber-db-secret
                   key: DB_CONNECT
-        imagePullSecrets:
-          - name: your-registry-secret
-Frontend Deployment (frontend/deployment.yaml)
-yaml
-Copy
-Edit
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: frontend
-  namespace: uber
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: frontend
-  template:
-    metadata:
-      labels:
-        app: frontend
-    spec:
-      containers:
-        - name: frontend
-          image: your-dockerhub-username/frontend:latest
-          ports:
-            - containerPort: 80
-4. Create Services
-Backend Service (backend/service.yaml)
-yaml
-Copy
-Edit
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -127,10 +135,45 @@ spec:
     - port: 5000
       targetPort: 5000
   type: ClusterIP
-Frontend Service (frontend/service.yaml)
-yaml
-Copy
-Edit
+```
+
+Apply the deployment:
+
+```bash
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+```
+
+---
+
+### 5. Kubernetes Deployment for Frontend
+
+Create a `frontend-deployment.yaml` file for the frontend service.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: uber
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: your-dockerhub-username/uber-frontend:latest
+          ports:
+            - containerPort: 80
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -143,76 +186,71 @@ spec:
     - port: 80
       targetPort: 80
   type: ClusterIP
-5. Apply the Kubernetes Manifests
-Apply the secret, backend, and frontend manifests:
+```
 
-bash
-Copy
-Edit
-kubectl apply -f secret.yaml
-kubectl apply -f backend/deployment.yaml
-kubectl apply -f frontend/deployment.yaml
-6. Verify Deployments
-Check the deployments to ensure they are created successfully:
+Apply the frontend deployment:
 
-bash
-Copy
-Edit
-kubectl get deployments -n uber
-Verify the pods:
+```bash
+kubectl apply -f frontend-deployment.yaml
+kubectl apply -f frontend-service.yaml
+```
 
-bash
-Copy
-Edit
-kubectl get pods -n uber
-Check if services are running:
+---
 
-bash
-Copy
-Edit
-kubectl get svc -n uber
-7. Troubleshooting Common Issues
-ImagePullBackOff Errors
-Ensure your Docker image name is correct in the deployment.yaml.
+### 6. Service Configuration
 
-If you're using a private registry, make sure you have the correct registry secret for pulling the image.
+Both the frontend and backend are now running inside Kubernetes. The backend is exposed via the `backend-service`, and the frontend via the `frontend-service`.
 
-Incorrect Secret Configuration
-Verify that your secret.yaml is created and applied correctly.
+To ensure the frontend connects to the backend service, use the backend's service name in the frontend code (e.g., `backend-service`).
 
-Ensure the environment variable references the correct secret key.
+---
 
-Database Connection Issues
-Make sure the DB_CONNECT environment variable is correctly set in your backend deployment.
+### 7. Troubleshooting Image Pull Issues
 
-Verify the database URL and ensure the database is accessible.
+If the pods are not starting and the image is not pulling, check the following:
 
-Nginx/Ingress Errors
-If you are using Nginx Ingress and get a path conflict, ensure you are not duplicating paths in your ingress rules.
+#### Common Issues:
+- **Incorrect Image Name**: Ensure that the image name in `deployment.yaml` is correct.
+- **Image Not Pushed**: Verify that the image has been pushed to the registry.
+- **Private Registry Issues**: Ensure Kubernetes can access your private registry by creating a Secret for authentication.
 
-Check ingress rules using:
+#### Debugging:
+Run the following command to check pod status:
 
-bash
-Copy
-Edit
-kubectl get ingress -n uber
-Logs and Debugging
-Check logs for backend and frontend containers to diagnose issues:
+```bash
+kubectl get pods
+```
 
-bash
-Copy
-Edit
-kubectl logs <pod-name> -n uber
-Conclusion
-With these steps, your Uber backend and frontend should be up and running on Kubernetes, with a secret management system for secure database connections. Always verify your environment variables and Docker images to avoid common deployment errors.
+If the status is `ImagePullBackOff`, use:
 
-Feel free to reach out for further assistance with Kubernetes or Docker deployment.
+```bash
+kubectl describe pod <pod-name>
+```
 
-vbnet
-Copy
-Edit
+Check the **Events** section for detailed error messages about the image pull issue.
 
-### Usage
-- Replace placeholder values like `your-dockerhub-username` and `<base64-encoded-connection-string>` with actual values.
-- If using a private registry, ensure you've created a `Secret` for authentication in Kubernetes.
+---
+
+### 8. Accessing the Services
+
+To access the services:
+
+#### Access the Frontend:
+Use the following command to get the ClusterIP or use Minikube to open the frontend:
+
+```bash
+minikube service frontend-service
+```
+
+#### Access the Backend:
+Access the backend through the `backend-service` using its ClusterIP or IP.
+
+---
+
+## Conclusion
+
+This guide helps us set up Kubernetes for your Uber Project, deploying Dockerized frontend and backend services. We've used Kubernetes Secrets to securely manage database credentials and successfully deployed both services with Kubernetes.
+
+---
+
 
