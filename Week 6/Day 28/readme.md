@@ -154,3 +154,7 @@ This project involves deploying a React-based SRE (Site Reliability Engineering)
   kubectl port-forward svc/grafana 8080:3000 -n monitoring
   ```
 - Verified dashboard metrics and confirmed successful data collection.
+---
+
+## Project Screenshots
+
