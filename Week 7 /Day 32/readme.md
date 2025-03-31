@@ -1,4 +1,4 @@
-# Uber Self-Healing App - System Workflow - ER Diagram creation
+# Uber Self-Healing App - System Workflow - ER Diagram Creation
 Today we started with creating ER Diagram of our project. below is the workflow.
 ## Overview
 The **Uber Self-Healing App** is designed to ensure high availability, fault tolerance, and automated recovery by integrating monitoring, logging, and Kubernetes-based self-healing mechanisms. This document outlines the key components and workflow of the system.
@@ -86,3 +86,4 @@ This architecture ensures a **highly available, fault-tolerant, and self-healing
 ---
 
 ## 📜 ER Diagram
+[!https://github.com/YashSri17/mthree-training-notes/blob/main/Week%207%20/Day%2032/ER%20Diagram.jpeg]
