@@ -95,3 +95,8 @@
 - Created a separate `RideHistory.jsx` component for handling ride history page.
 
 ## Project Screenshots
+![image](https://github.com/YashSri17/mthree-training-notes/blob/main/Week%208/Day%2035/Screenshot%202025-04-01%20092126.png)
+![image](https://github.com/YashSri17/mthree-training-notes/blob/main/Week%208/Day%2035/Screenshot%202025-04-01%20121125.png)
+![image](https://github.com/YashSri17/mthree-training-notes/blob/main/Week%208/Day%2035/Screenshot%202025-04-01%20124918.png)
+![image](https://github.com/YashSri17/mthree-training-notes/blob/main/Week%208/Day%2035/Screenshot%202025-04-01%20150940.png)
+![image](https://github.com/YashSri17/mthree-training-notes/blob/main/Week%208/Day%2035/Screenshot%202025-04-01%20164046.png)
